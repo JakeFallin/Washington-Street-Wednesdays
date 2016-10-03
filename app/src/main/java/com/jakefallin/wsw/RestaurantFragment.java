@@ -5,9 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.SyncStateContract;
+import android.support.v4.app.FragmentTransaction;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -143,10 +142,12 @@ public class RestaurantFragment extends Fragment {
                                     Bundle bundle = new Bundle();
                                     bundle.putInt("fragmentInfo", info + 1);
                                     rf.setArguments(bundle);
+
                                     getFragmentManager().beginTransaction()
                                             .replace(((ViewGroup) getView().getParent()).getId(), rf)
                                             .addToBackStack(null)
                                             .commit();
+
 
                                 }
                             } else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE
@@ -217,7 +218,6 @@ public class RestaurantFragment extends Fragment {
 
     }
 
-
     @Override
     public void onInflate(Context context, AttributeSet attrs,
                           Bundle savedInstanceState) {
@@ -253,9 +253,8 @@ public class RestaurantFragment extends Fragment {
             case(3):
                 return "2014200555";
             case(4):
-                return "S2017105777";
+                return "2017105777";
         }
         return "null";
     }
-
 }
