@@ -38,6 +38,7 @@ public class RestaurantFragment extends Fragment {
     ScrollView scrollView;
 
 
+
     public static RestaurantFragment newInstance(int index) {
         RestaurantFragment rf = new RestaurantFragment();
         return rf;
@@ -45,7 +46,6 @@ public class RestaurantFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
     }
 
@@ -85,6 +85,15 @@ public class RestaurantFragment extends Fragment {
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
                 mapIntent.setPackage("com.google.android.apps.maps");
                 startActivity(mapIntent);
+            }
+        });
+
+        Button call = (Button) view.findViewById(R.id.buttonCall);
+        call.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:" + getPhoneNumber(info)));
+                startActivity(intent);
             }
         });
 
@@ -229,11 +238,24 @@ public class RestaurantFragment extends Fragment {
             case(4):
                 return "Stacks Pancake House";
         }
-        return "dicks";
+        return "null";
     }
 
-
-
-
+    public String getPhoneNumber(int i)
+    {
+        switch(i) {
+            case(0):
+                return "2017924132";
+            case(1):
+                return "2016830313";
+            case(2):
+                return "2016596560";
+            case(3):
+                return "2014200555";
+            case(4):
+                return "S2017105777";
+        }
+        return "null";
+    }
 
 }

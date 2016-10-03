@@ -4,7 +4,9 @@ import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -45,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             Fragment newFragment = new StartupFragment();
             FragmentTransaction ft = getFragmentManager().beginTransaction();
-            ft.add(CONTENT_VIEW_ID, newFragment).commit();
+            ft.add(CONTENT_VIEW_ID, newFragment, "tag").commit();
         }
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -54,14 +57,34 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     public void onBackPressed() {
 
-        FrameLayout frame = new FrameLayout(this);
-        frame.setId(CONTENT_VIEW_ID);
-        setContentView(frame, new FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+        StartupFragment myFragment = (StartupFragment) getFragmentManager().findFragmentByTag("tag");
+        if (myFragment != null && myFragment.isVisible()) {
 
+            Intent startMain = new Intent(Intent.ACTION_MAIN);
+            startMain.addCategory(Intent.CATEGORY_HOME);
+            startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(startMain);
+        } else {
+            Log.d("CDA", "onBackPressed Called");
+            Intent setIntent = new Intent(this, MainActivity.class);
+            startActivity(setIntent);
+        }
     }
+
+
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -99,6 +122,8 @@ public class MainActivity extends AppCompatActivity {
         client.disconnect();
     }
 
+
+
     @SuppressLint("ValidFragment")
     public class StartupFragment extends Fragment {
 
@@ -115,6 +140,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         }
+
+
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -174,6 +201,8 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+
+
 
 }
 
